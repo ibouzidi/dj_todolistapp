@@ -1,12 +1,16 @@
-<h1>Ma liste à faire</h1>
+<h1>Ma liste de tâches</h1>
 <table>
     <tr>
         <th>Item</th>
+        <th>Action</th>
     </tr>
 
-    {% for task in object_list %}
+    {% for task in tasks %}
     <tr>
         <td>{{ task.title }}</td>
+        <td><a href="{% url 'task_detail' task.id %}">Voir</a></td>
     </tr>
+    {% empty %}
+        <h3>Aucune tâche dans la liste</h3>
     {% endfor %}
 </table>
