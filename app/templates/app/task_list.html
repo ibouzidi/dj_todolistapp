@@ -1,5 +1,16 @@
-<h1>Ma liste de tâches</h1>
+{% if request.user.is_authenticated %}
+    <p>{{ request.user }}</p>
+    <a href="{% url 'logout' %}">Déconnexion</a>
+    {% else %}
+    <a href="{% url 'login' %}">Connexion</a>
+{% endif %}
+<h1>Ma liste de tâches  {{ color }}</h1>
 <a href="{% url 'task_create' %}">Créer une tâche</a>
+
+<form method="GET">
+    <input type="text" name="search" value="{{ search_input }}">
+    <input type="submit" value="Rechercher">
+</form>
 <table>
     <tr>
         <th>Item</th>
