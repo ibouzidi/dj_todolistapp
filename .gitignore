@@ -1,0 +1,8 @@
+/venv/
+.idea
+.env
+migrations/
+/static/
+__pycache__/
+/media/
+Procfile
