@@ -1,2 +1,7 @@
+{% extends 'app/base.html' %}
+{% block title %}Tâche {{ task.title }}{% endblock %}
+
+{% block content %}
 <h1>Tâche : {{ task.title }}</h1>
 <p>{{ task.description }}</p>
+{% endblock content%}

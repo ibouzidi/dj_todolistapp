@@ -1,9 +1,16 @@
-<h1>Connexion</h1>
+{% extends 'app/base.html' %}
+{% block title %}Page de connexion{% endblock %}
 
-<form method="POST" action="">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Connexion">
-</form>
-
-<p>Pas encore inscrit ? <a href="{% url 'register' %}">S'inscrire</a></p>
+{% block content %}
+    <div class="header">
+        <h1>Connexion</h1>
+    </div>
+    <div class="form-all">
+        <form method="POST" action="">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Connexion">
+        </form>
+    </div>
+    <p class="py-2">Pas encore inscrit ? <a href="{% url 'register' %}">S'inscrire</a></p>
+{% endblock content%}

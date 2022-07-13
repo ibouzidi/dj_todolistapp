@@ -1,9 +1,14 @@
-<h1>Inscription</h1>
+{% extends 'app/base.html' %}
+{% block title %}Page d'inscription{% endblock %}
 
-<form method="POST" action="">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Envoyer">
-</form>
-
-<p>Vous avez déjà un compte ? <a href="{% url 'login' %}">Se connecter</a></p>
+{% block content %}
+    <h1>Inscription</h1>
+    <div class="form-all">
+        <form method="POST" action="">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Envoyer">
+        </form>
+    </div>
+    <p>Vous avez déjà un compte ? <a href="{% url 'login' %}">Se connecter</a></p>
+{% endblock content %}

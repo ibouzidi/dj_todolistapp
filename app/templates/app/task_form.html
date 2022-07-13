@@ -1,7 +1,14 @@
-<h3>Formulaire Tâche</h3>
-<a href="{% url 'tasks' %}">Retour sur la liste</a>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Save">
-</form>
+{% extends 'app/base.html' %}
+{% block title %}Création d'une tâche{% endblock %}
+
+{% block content %}
+    <h3>Formulaire Tâche</h3>
+    <a href="{% url 'tasks' %}">Retour sur la liste</a>
+    <div class="form-all">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Save">
+        </form>
+    </div>
+{% endblock content%}
