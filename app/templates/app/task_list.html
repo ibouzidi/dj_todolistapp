@@ -16,7 +16,7 @@
         {% endif %}
     </div>
     <hr style="color: var(--text-color-grey)">
-    <h6 class="mb-3">Awesome Todo List</h6>
+    <h6 class="mb-3">Bienvenue dans votre liste de tâche</h6>
 
     <form method="GET" class="d-flex justify-content-start align-items-center mb-4  search-form">
         <div class="col-md-4 ">
@@ -36,7 +36,7 @@
                 <div class="d-flex align-items-center">
                     {% if task.complete %}
                         <div class="task-complete-icon"></div>
-                        <i><s><span class="task-title">{{ task.title }}</span></i></s>
+                        <i><s><span class="task-title">{{ task.title }}</span></s></i>
 
                     {% else %}
                         <div class="task-incomplete-icon"></div>
