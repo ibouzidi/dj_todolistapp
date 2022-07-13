@@ -59,9 +59,10 @@ h6 {
 }
 
 .card .add-task-btn a{
-    background-color: var(--text-color-orange);
-    color: var(--text-color-white);
+    /*background-color: var(--text-color-orange);*/
+    color: var(--text-color-orange);
     border: solide 1px var(--bg-color-secondary);
+    font-size: 42px;
 }
 
 .list-group-item{
