@@ -17,6 +17,7 @@
     </div>
     <hr style="color: var(--text-color-grey)">
     <h6 class="mb-3">Bienvenue dans votre liste de tâche</h6>
+{#        <h1 id="app">{{ text }}</h1>#}
 
     <form method="GET" class="d-flex justify-content-start align-items-center mb-4  search-form">
         <div class="col-md-4 ">
@@ -32,17 +33,22 @@
 
     <ul class="list-group mb-0">
         {% for task in tasks %}
-            <li class="list-group-item d-flex justify-content-between align-items-center border-start-0 border-top-0 border-end-0 border-bottom rounded-0 mb-4">
-                <div class="d-flex align-items-center">
+            <li class="list-group-item d-flex justify-content-between align-items-center border-start-0 border-top-0 border-end-0 border-bottom border-left-0 border-right-0 rounded-0 mb-4">
+                <div class="d-flex align-items-center task-title">
                     {% if task.complete %}
                         <div class="task-complete-icon"></div>
-                        <i><s><span class="task-title">{{ task.title }}</span></s></i>
+                        <i><s><span class="task-title"><a href="{% url 'task_detail' task.id %}">{{ task.title }}</a> </span></s>
+                        </i>
 
                     {% else %}
                         <div class="task-incomplete-icon"></div>
-                        <i><span class="task-title">{{ task.title }}</span></i>
+                        <i><span class="task-title"><a href="{% url 'task_detail' task.id %}">{{ task.title }}</a>  </span>
+                            <div class="timer" style="display: none"> {{ task.due_date|date:'U' }}</div> <div class="countdown"></div>
+                        </i>
                     {% endif %}
+
                 </div>
+                <div class="due-date-text"><p><i class="fas fa-hourglass-half"> {{ task.due_date | date:"l, j, f" }}</i></p></div>
             <div class="action-task">
                 <a href="{% url 'task_update' task.id %}" data-mdb-toggle="tooltip" title="Edit item">
                     <i class="fas fa-edit text-primary"></i>
@@ -53,9 +59,61 @@
                 </a>
                 </div>
             </li>
+
         {% empty %}
             <h3>Aucune tâche dans la liste</h3>
         {% endfor %}
         <ul>
 
+<script>
+$(function() {
+            $(document).ready(function() {
+                $('.timer').each(function() {
+                    if ($.isNumeric($(this).html())) {
+                        console.log("parseInt($(this).html())")
+                        console.log(parseInt($(this).html()))
+                        let date_now = new Date();
+                        let due_date = new Date(parseInt($(this).html()*1000))
+                        if ( due_date < date_now) {
+                            console.log('late')
+                            $(this).html("late")
+                        }
+                        else {
+                            console.log('date sup')
+                            let delta = Math.floor(Math.abs(due_date - date_now) / 1000);
+                            console.log(delta)
+                            $(this).html(delta)
+                        }
+                        if ($('.task-complete-icon')){
+                            $('.test-test').html("done")
+                        }
+                    }
+                });
+
+                // Function to update counters on all elements with class counter
+                let doUpdate = function() {
+                    $('.timer').each(function() {
+                        let count = parseInt($(this).html());
+                        if ($.isNumeric($(this).html())) {
+                            if (count !== 0) {
+                                $(this).html(count - 1);
+                                if (count > 86400){
+                                    var $days = new Date((count - 1) * 1000).toISOString().substr(8, 11).split('T', 1)[0];
+                                    var $hours = new Date((count - 1) * 1000).toISOString().substr(8, 11).split('T', 2)[1];
+                                    $(this).next().html($days + " Jours et " + $hours)
+                                }else{
+                                     $(this).next().html(new Date((count - 1) * 1000).toISOString().substr(11, 8));
+                                }
+                            }
+                        }
+                    });
+                };
+
+                // Schedule the update to happen once every second
+                setInterval(doUpdate, 1000);
+
+            });
+            });
+
+</script>
 {% endblock content %}

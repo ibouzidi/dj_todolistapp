@@ -76,6 +76,7 @@ h6 {
 
 .form-all input[type=text],
 input[type=password],
+input[type=datetime-local],
 textarea {
     background-color: var(--bg-color-primary);
     border: solide 1px var(--bg-color-secondary);
@@ -140,3 +141,19 @@ textarea {
 .action-task a{
     margin-left: 5px;
 }
+
+.due-date-text p{
+    font-size: 12px;
+    color: var(--text-color-orange);
+    margin: 0;
+}
+
+.due-date-text i {
+    font-style: italic;
+}
+
+.task-title{
+    width: 300px;
+}
+
+

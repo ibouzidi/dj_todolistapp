@@ -3,6 +3,7 @@ from .views import TaskList, TaskDetail, TaskCreate, TaskUpdate, TaskDelete, \
     CustomLoginView, RegisterPage
 from django.contrib.auth.views import LogoutView
 
+
 urlpatterns = [
     path('', TaskList.as_view(), name='tasks'),
     path('task/<int:pk>/', TaskDetail.as_view(), name='task_detail'),

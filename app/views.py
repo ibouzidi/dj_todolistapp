@@ -9,6 +9,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from .models import Task
+from .forms import AddTask
+from datetime import datetime, timedelta
+from django.contrib import messages
 
 
 class CustomLoginView(LoginView):
@@ -46,6 +49,19 @@ class TaskList(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['tasks'] = context['tasks'].filter(user=self.request.user)
         context['count'] = context['tasks'].filter(complete=False).count()
+        context['due_date'] = context['tasks'].values_list('due_date', flat=True)
+        tasks = context['tasks'].all()
+        # date_format = '%Y-%m-%d %H:%M:%S.%f'
+        date_format = '%Y-%m-%d %H:%M:%S'
+        date_now_str = datetime.now().strftime(date_format)
+        for i in tasks:
+            due_date = i.due_date.strftime(date_format)
+            a = datetime.strptime(str(due_date), date_format)
+            b = datetime.strptime(date_now_str, date_format)
+            if a < b:
+                i.complete = True
+                i.save()
+
         search_input = self.request.GET.get('search') or ''
         if search_input:
             context['tasks'] = context['tasks'].filter(
@@ -62,24 +78,37 @@ class TaskDetail(LoginRequiredMixin, DetailView):
 
 class TaskCreate(LoginRequiredMixin, CreateView):
     model = Task
-    fields = ['title', 'description', 'complete']
+    form_class = AddTask
     success_url = reverse_lazy('tasks')
 
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super(TaskCreate, self).form_valid(form)
+    def form_valid(self, form_class):
+        form_class.instance.user = self.request.user
+        messages.success(self.request,
+                         f'{form_class.instance} created successfully')
+        return super(TaskCreate, self).form_valid(form_class)
 
 
 class TaskUpdate(LoginRequiredMixin, UpdateView):
     model = Task
-    fields = ['title', 'description', 'complete']
+    form_class = AddTask
     success_url = reverse_lazy('tasks')
+
+    def form_valid(self, form_class):
+        form_class.instance.user = self.request.user
+        messages.success(self.request,
+                         f'{form_class.instance} updated successfully')
+        return super(UpdateView, self).form_valid(form_class)
 
 
 class TaskDelete(LoginRequiredMixin, DeleteView):
     model = Task
     context_object_name = 'task'
     success_url = reverse_lazy('tasks')
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request,
+                         f'{self.context_object_name} deleted successfully')
+        return super(DeleteView, self).delete(request, *args, **kwargs)
 
     def get(self, request, *args, **kwargs):
         return self.post(request, *args, **kwargs)

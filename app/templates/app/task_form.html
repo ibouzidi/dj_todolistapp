@@ -7,8 +7,19 @@
     <div class="form-all">
         <form method="post">
             {% csrf_token %}
-            {{ form.as_p }}
-            <input type="submit" value="Save">
+{#            {{ form.as_p }}#}
+            <label for="">{{ form.title.label }}</label>
+            {{ form.title }}
+            {{ form.title.errors }}
+            <label for="">{{ form.description.label }}</label>
+            {{ form.description }}
+            {{ form.description.errors }}
+            <label for="">{{ form.complete.label }}</label>
+            {{ form.complete }}
+            {{ form.complete.errors }}
+            <label for="">{{ form.title.due_date }}</label>
+            {{ form.due_date }}
+            <label for=""><input type="submit" value="Save"></label>
         </form>
     </div>
 {% endblock content%}
