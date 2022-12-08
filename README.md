@@ -31,6 +31,9 @@ This is a simple todo app that uses bootstrap and Django as backend Framework.
 
 <h3>Preview</h3>
 ![sign in](app/static/app/img/sign_in.png)
+
 ![sign up](app/static/app/img/sign_up.png)
-![sign up](app/static/app/img/tasks_list.png)
-![sign up](app/static/app/img/add_task.png)
+
+![tasks list](app/static/app/img/tasks_list.png)
+
+![add task](app/static/app/img/add_task.png)
