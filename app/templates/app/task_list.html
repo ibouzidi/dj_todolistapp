@@ -49,6 +49,16 @@
 
                 </div>
                 <div class="due-date-text"><p><i class="fas fa-hourglass-half"> {{ task.due_date | date:"l, j, f" }}</i></p></div>
+                <div class="priority-text">
+                    {% if task.priority == 1 %}
+                    <span title="Low" class="flag-priority-low"><i class="fas fa-flag"></i></span>
+                    {% elif  task.priority == 2 %}
+                    <span title="Medium" class="flag-priority-medium"><i class="fas fa-flag"></i></span>
+                    {% else %}
+                    <span title="High" class="flag-priority-high"><i class="fas fa-flag"></i></span>
+                    {% endif %}
+                </p>
+                </div>
             <div class="action-task">
                 <a href="{% url 'task_update' task.id %}" data-mdb-toggle="tooltip" title="Edit item">
                     <i class="fas fa-edit text-primary"></i>

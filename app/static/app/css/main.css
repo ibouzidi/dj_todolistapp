@@ -77,6 +77,7 @@ h6 {
 .form-all input[type=text],
 input[type=password],
 input[type=datetime-local],
+select,
 textarea {
     background-color: var(--bg-color-primary);
     border: solide 1px var(--bg-color-secondary);
@@ -156,4 +157,18 @@ textarea {
     width: 300px;
 }
 
+.priority-text i{
 
+}
+
+.flag-priority-low i {
+    color: grey;
+}
+
+.flag-priority-medium i {
+    color: orange;
+}
+
+.flag-priority-high i {
+    color: red;
+}

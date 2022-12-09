@@ -12,6 +12,7 @@ from .models import Task
 from .forms import AddTask
 from datetime import datetime, timedelta
 from django.contrib import messages
+from django.db.models import Case, When, Value
 
 
 class CustomLoginView(LoginView):
@@ -47,7 +48,15 @@ class TaskList(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['tasks'] = context['tasks'].filter(user=self.request.user)
+
+        new_priority = Case(
+            When(priority=Task.Priority.HIGH, then=Value(1)),
+            When(priority=Task.Priority.MEDIUM, then=Value(2)),
+            When(priority=Task.Priority.LOW, then=Value(3)),
+        )
+        context['tasks'] = context['tasks'].filter(
+            user=self.request.user).annotate(
+            new_priority=new_priority).order_by('complete', 'new_priority')
         context['count'] = context['tasks'].filter(complete=False).count()
         context['due_date'] = context['tasks'].values_list('due_date', flat=True)
         tasks = context['tasks'].all()
